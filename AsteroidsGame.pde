@@ -1,6 +1,7 @@
 SpaceShip myShip = new SpaceShip();//your variable declarations here
 public void setup() 
 {//your code here
+  background(30);
   size(720,720);
 }
 public void draw() 
@@ -9,13 +10,28 @@ public void draw()
 }
 public void keyPressed()
 {
-
+  if (key == CODED)
+  {
+    if (key == UP)
+    {
+      myShip.accelerate(10);
+    }
+  }
 }
 class SpaceShip extends Floater  
 { 
+  protected int corners;  //the number of corners, a triangular floater has 3   
+  protected int[] xCorners;   
+  protected int[] yCorners;   
+  protected int myColor;   
+  protected double myCenterX, myCenterY; //holds center coordinates   
+  protected double myDirectionX, myDirectionY; //holds x and y coordinates of the vector for direction of travel   
+  protected double myPointDirection; //holds current direction the ship is pointing in degrees    
     SpaceShip()
     {  
       corners = 3;
+      xCorners = new int[corners];
+      yCorners = new int[corners];
       xCorners[0] = 8;
       xCorners[1] = -5;
       xCorners[2] = -5;
