@@ -8,14 +8,23 @@ public void draw()
 {
   myShip.show();//your code here
 }
-public void keyPressed()
+ public void keyPressed()
 {
-  if (key == CODED)
+  if(key == 'w')
   {
-    if (key == UP)
-    {
-      myShip.accelerate(10);
-    }
+    myShip.accelerate(.2);
+  }
+  else if(key == 's')
+  {
+    myShip.accelerate(-.2);
+  }
+  if(key == 'a')
+  {
+    myShip.rotate(-1);
+  }
+  else if(key == 'd')
+  {
+    myShip.rotate(1);
   }
 }
 class SpaceShip extends Floater  
@@ -27,7 +36,7 @@ class SpaceShip extends Floater
   protected double myCenterX, myCenterY; //holds center coordinates   
   protected double myDirectionX, myDirectionY; //holds x and y coordinates of the vector for direction of travel   
   protected double myPointDirection; //holds current direction the ship is pointing in degrees    
-    SpaceShip()
+  public SpaceShip()
     {  
       corners = 3;
       xCorners = new int[corners];
