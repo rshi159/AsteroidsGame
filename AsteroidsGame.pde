@@ -1,37 +1,105 @@
 SpaceShip myShip;//your variable declarations here
+NormalParticle[] particle;
+private boolean wIsPressed = false;
+private boolean dIsPressed = false;
+private boolean aIsPressed = false;
+private boolean sIsPressed = false;
 public void setup() 
 {//your code here
   size(720,720);
   myShip = new SpaceShip();
+  particle = new NormalParticle[30];
+    for(int i = 0; i < 30; i++)
+    {
+      particle[i]= new NormalParticle();
+    }
 }
 public void draw() 
 {
-  background(0);
+  background(30);
   myShip.show();//your code here
   myShip.move();
-  System.out.println(myShip.getX());
+  if(wIsPressed == true && dIsPressed == true)
+  {
+    myShip.accelerate(.2);
+    myShip.rotate(10);
+  }
+  else if(wIsPressed == true && aIsPressed == true)
+  {
+    myShip.accelerate(.2);
+    myShip.rotate(-10);
+  }
+  else if(sIsPressed == true && dIsPressed == true)
+  {
+    myShip.accelerate(-.2);
+    myShip.rotate(10);
+  }
+  else if(sIsPressed == true && aIsPressed == true)
+  {
+    myShip.accelerate(-.2);
+    myShip.rotate(-10);
+  }
+  else if (wIsPressed ==true)
+  {
+    myShip.accelerate(.2);
+  }
+  else if(sIsPressed == true)
+  {
+    myShip.accelerate(-.2);
+  }
+  else if(aIsPressed == true)
+  {
+    myShip.rotate(-10);
+  }
+  else if(dIsPressed == true)
+  {
+    myShip.rotate(10);
+  }
+  for(int i = 0; i < 30; i++)
+  {
+      particle[i].show();//your code here
+  }
 }
- public void keyPressed()
+void keyPressed()
 {
-  if(key == 'w')
+  if(key=='w')
   {
-    myShip.accelerate(1.5);
+    wIsPressed = true;
   }
-  if(key == 's')
+  else if (key == 'd')
   {
-    myShip.accelerate(-.5);
+    dIsPressed = true;
   }
-  if(key == 'a')
+  else if (key == 'a')
   {
-    myShip.rotate(-8);
+    aIsPressed = true;
   }
-  if(key == 'd')
+  else if (key == 's')
   {
-    myShip.rotate(8);
+    sIsPressed = true;
   }
-  if(key == 'l')
+  if (key == 'f')
   {
     myShip.hyperspace();
+  }
+}
+void keyReleased()
+{
+  if(key=='w')
+  {
+    wIsPressed = false;
+  }
+  else if (key == 'd')
+  {
+    dIsPressed = false;
+  }
+  else if (key == 'a')
+  {
+    aIsPressed = false;
+  }
+  else if (key == 's')
+  {
+    sIsPressed = false;
   }
 }
 class SpaceShip extends Floater  
@@ -150,3 +218,23 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     endShape(CLOSE);  
   }   
 } 
+class NormalParticle
+{
+  double myX, myY,mySpeed, mySize;
+  int myColorR, myColorG, myColorB;
+  NormalParticle()
+  {
+    mySize = Math.random()*7;
+    myX = Math.random()*720;
+    myY = Math.random()*720;
+    myColorR = (int)(Math.random()*255);
+    myColorG = (int)(Math.random()*255);
+    myColorB = (int)(Math.random()*255);
+  }
+  public void show()
+  {
+    noStroke();
+    fill(myColorR,myColorG,myColorB);
+    ellipse((float)myX, (float)myY, (float)mySize, (float)mySize);
+  }
+}
