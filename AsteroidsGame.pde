@@ -18,16 +18,17 @@ public void draw()
 {
   background(30);
   myShip.show();//your code here
+  myShip.show2();
   myShip.move();
   if(wIsPressed == true && dIsPressed == true)
   {
     myShip.accelerate(.2);
-    myShip.rotate(10);
+    myShip.rotate(8);
   }
   else if(wIsPressed == true && aIsPressed == true)
   {
     myShip.accelerate(.2);
-    myShip.rotate(-10);
+    myShip.rotate(-8);
   }
   else if(sIsPressed == true && dIsPressed == true)
   {
@@ -49,11 +50,11 @@ public void draw()
   }
   else if(aIsPressed == true)
   {
-    myShip.rotate(-10);
+    myShip.rotate(-8);
   }
   else if(dIsPressed == true)
   {
-    myShip.rotate(10);
+    myShip.rotate(8);
   }
   for(int i = 0; i < 30; i++)
   {
@@ -104,19 +105,25 @@ void keyReleased()
 }
 class SpaceShip extends Floater  
 { 
+  protected int corners2;  //the number of corners, a triangular floater has 3   
+  protected int myColor2;
+  protected int[] xCorners2;   
+  protected int[] yCorners2;  
   public SpaceShip()
     {  
       myColor=255;
-      corners = 3;
-      xCorners = new int[corners];
-      yCorners = new int[corners];
-      xCorners[0] = 8;
-      xCorners[1] = -5;
-      xCorners[2] = -5;
-      yCorners[0] = 0;
-      yCorners[1] = 3;
-      yCorners[2] = -3;
+      corners = 20;
+      int[] xS = {20, 10,-12, -14, -16,-18,-22,-23,-24,-26,-26,-24,-23,-22,-18,-16,-14,-12,10,20};
+      int[] yS = {-2, -4,-4,-2,-2,-4,-4,-1,-4,-4,4,4,1,4,4,2,2,4,4,2};
+      xCorners = xS;
+      yCorners = yS;
+      corners2 = 24;
+      int[] xS2 = {4,12,12,18,10,6,4,0,-12,-18,-24,-10,-10,-24,-18,-12,0,4,6,10,18,12,12,4};
+      int[] yS2 = {-4,-8,-14,-24,-22,-24,-14,-4,-16,-16,-8,-4,4,8,16,16,4,14,24,22,24,14,8,4};
+      xCorners2 = xS2;
+      yCorners2 = yS2;
       myColor = 255;
+      myColor2 = 255;
       myCenterX = 360;
       myCenterY = 360;
       myDirectionX = 0;
@@ -141,6 +148,23 @@ class SpaceShip extends Floater
       myCenterX = Math.random()*720;
       myCenterY = Math.random()*720;
     }
+  public void show2 ()  //Draws the floater at the current position  
+  {             
+    fill(myColor2);   
+    stroke(myColor2);    
+    //convert degrees to radians for sin and cos         
+    double dRadians = myPointDirection*(Math.PI/180);                 
+    int xRotatedTranslated, yRotatedTranslated;    
+    beginShape();         
+    for(int nI = 0; nI < corners2; nI++)    
+    {     
+      //rotate and translate the coordinates of the floater using current direction 
+      xRotatedTranslated = (int)((xCorners2[nI]* Math.cos(dRadians)) - (yCorners2[nI] * Math.sin(dRadians))+myCenterX);     
+      yRotatedTranslated = (int)((xCorners2[nI]* Math.sin(dRadians)) + (yCorners2[nI] * Math.cos(dRadians))+myCenterY);      
+      vertex(xRotatedTranslated,yRotatedTranslated);    
+    }   
+    endShape(CLOSE);
+  }   
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
