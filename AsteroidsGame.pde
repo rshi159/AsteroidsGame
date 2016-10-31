@@ -1,4 +1,5 @@
 SpaceShip myShip;//your variable declarations here
+Asteroid myAsteroid;
 NormalParticle[] particle;
 private boolean wIsPressed = false;
 private boolean dIsPressed = false;
@@ -17,6 +18,11 @@ public void setup()
 public void draw() 
 {
   background(30);
+    for(int i = 0; i < 30; i++)
+  {
+      particle[i].show();//your code here
+  }
+  myAsteroid.show();
   myShip.show();//your code here
   myShip.show2();
   myShip.move();
@@ -55,10 +61,6 @@ public void draw()
   else if(dIsPressed == true)
   {
     myShip.rotate(8);
-  }
-  for(int i = 0; i < 30; i++)
-  {
-      particle[i].show();//your code here
   }
 }
 void keyPressed()
@@ -111,7 +113,6 @@ class SpaceShip extends Floater
   protected int[] yCorners2;  
   public SpaceShip()
     {  
-      myColor=255;
       corners = 20;
       int[] xS = {20, 10,-12, -14, -16,-18,-22,-23,-24,-26,-26,-24,-23,-22,-18,-16,-14,-12,10,20};
       int[] yS = {-2, -4,-4,-2,-2,-4,-4,-1,-4,-4,4,4,1,4,4,2,2,4,4,2};
@@ -122,8 +123,8 @@ class SpaceShip extends Floater
       int[] yS2 = {-4,-8,-14,-24,-22,-24,-14,-4,-16,-16,-8,-4,4,8,16,16,4,14,24,22,24,14,8,4};
       xCorners2 = xS2;
       yCorners2 = yS2;
-      myColor = 255;
-      myColor2 = 255;
+      myColor2 = color(0,255,150,60);
+      myColor=color(148,191,188);
       myCenterX = 360;
       myCenterY = 360;
       myDirectionX = 0;
@@ -260,5 +261,29 @@ class NormalParticle
     noStroke();
     fill(myColorR,myColorG,myColorB);
     ellipse((float)myX, (float)myY, (float)mySize, (float)mySize);
+  }
+}
+
+class Asteroid extends Floater 
+{
+  private int mySpin;
+  public Asteroid()
+  {
+    mySpin = Math.random()*4-2;
+  }
+  public void setX(int x) {x = (int)myCenterX;}  
+  public int getX() {return (int)myCenterX;}   
+  public void setY(int y) {y = (int)myCenterY;}
+  public int getY() {return (int)myCenterY;}
+  public void setDirectionX(double x) {x = myDirectionX;}   
+  public double getDirectionX() {return myDirectionX;}
+  public void setDirectionY(double y) {y = myDirectionY;}
+  public double getDirectionY() {return myDirectionY;}
+  public void setPointDirection(int degrees) {degrees = (int)myPointDirection;}
+  public double getPointDirection() {return myPointDirection;} //your code here
+  public move()
+  {
+
+    Asteroid.rotate(mySpin);
   }
 }
