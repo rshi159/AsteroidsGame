@@ -9,6 +9,7 @@ public void setup()
 {//your code here
   size(720,720);
   myShip = new SpaceShip();
+  myAsteroid = new Asteroid();
   particle = new NormalParticle[30];
     for(int i = 0; i < 30; i++)
     {
@@ -22,6 +23,7 @@ public void draw()
   {
       particle[i].show();//your code here
   }
+  myAsteroid.move();
   myAsteroid.show();
   myShip.show();//your code here
   myShip.show2();
@@ -176,7 +178,7 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
   protected double myCenterX, myCenterY; //holds center coordinates   
   protected double myDirectionX, myDirectionY; //holds x and y coordinates of the vector for direction of travel   
   protected double myPointDirection; //holds current direction the ship is pointing in degrees    
-  abstract public void setX(int x);  
+  abstract public void setX(int x);
   abstract public int getX();   
   abstract public void setY(int y);   
   abstract public int getY();   
@@ -269,7 +271,18 @@ class Asteroid extends Floater
   private int mySpin;
   public Asteroid()
   {
-    mySpin = Math.random()*4-2;
+    mySpin = (int)(Math.random()*6-2);
+    corners = 4;
+    int[] xS = {20,-20,-20,20};
+    int[] yS = {20,20,-20,-20};
+    xCorners = xS;
+    yCorners = yS;
+    myColor=180;
+    myCenterX = 360;
+    myCenterY = 360;
+    myDirectionX = Math.random()*6-3;
+    myDirectionY = Math.random()*6-3;
+    myPointDirection = 0;
   }
   public void setX(int x) {x = (int)myCenterX;}  
   public int getX() {return (int)myCenterX;}   
@@ -281,9 +294,42 @@ class Asteroid extends Floater
   public double getDirectionY() {return myDirectionY;}
   public void setPointDirection(int degrees) {degrees = (int)myPointDirection;}
   public double getPointDirection() {return myPointDirection;} //your code here
-  public move()
+  public void move()
   {
+    rotate(mySpin);
+      //change the x and y coordinates by myDirectionX and myDirectionY       
+    myCenterX += myDirectionX;    
+    myCenterY += myDirectionY;     
 
-    Asteroid.rotate(mySpin);
+    //wrap around screen    
+    if(myCenterX >width)
+    {     
+      myCenterX = 0;
+      myDirectionX = Math.random()*2+1;
+      myDirectionY = Math.random()*6-3;
+      mySpin = (int)(Math.random()*6-2);    
+    }    
+    else if (myCenterX<0)
+    {     
+      myCenterX = width;  
+      myDirectionX = Math.random()*-2-1;
+      myDirectionY = Math.random()*6-3; 
+      mySpin = (int)(Math.random()*6-2); 
+    }    
+    if(myCenterY >height)
+    {    
+      myCenterY = 0;  
+      myDirectionX = Math.random()*6-3;
+      myDirectionY = Math.random()*2+1;  
+      mySpin = (int)(Math.random()*6-2);
+    }   
+    else if (myCenterY < 0)
+    {     
+      myCenterY = height; 
+      myDirectionX = Math.random()*6-3;
+      myDirectionY = Math.random()*-2-1; 
+      mySpin = (int)(Math.random()*6-2);  
+    }   
+
   }
 }
