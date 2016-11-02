@@ -168,6 +168,30 @@ class SpaceShip extends Floater
     }   
     endShape(CLOSE);
   }   
+  public void move ()   //move the floater in the current direction of travel
+  {      
+    //change the x and y coordinates by myDirectionX and myDirectionY       
+    myCenterX += myDirectionX;    
+    myCenterY += myDirectionY;     
+
+    //wrap around screen    
+    if(myCenterX >width)
+    {     
+      myCenterX = 0;    
+    }    
+    else if (myCenterX<0)
+    {     
+      myCenterX = width;    
+    }    
+    if(myCenterY >height)
+    {    
+      myCenterY = 0;    
+    }   
+    else if (myCenterY < 0)
+    {     
+      myCenterY = height;    
+    }   
+  }   
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
@@ -268,10 +292,11 @@ class NormalParticle
 
 class Asteroid extends Floater 
 {
-  private int mySpin;
+  private int mySpin, myRotateDirection;
   public Asteroid()
   {
-    mySpin = (int)(Math.random()*6-2);
+    mySpin = (int)(Math.random()*3+2);
+    myRotateDirection = 0;
     corners = 4;
     int[] xS = {20,-20,-20,20};
     int[] yS = {20,20,-20,-20};
@@ -296,39 +321,43 @@ class Asteroid extends Floater
   public double getPointDirection() {return myPointDirection;} //your code here
   public void move()
   {
+    if (Math.random() > .5)
+      myRotateDirection = 1;
+    else
+      myRotateDirection = -1;
     rotate(mySpin);
       //change the x and y coordinates by myDirectionX and myDirectionY       
     myCenterX += myDirectionX;    
     myCenterY += myDirectionY;     
 
     //wrap around screen    
-    if(myCenterX >width)
+    if(myCenterX >15000)
     {     
       myCenterX = 0;
       myDirectionX = Math.random()*2+1;
       myDirectionY = Math.random()*6-3;
-      mySpin = (int)(Math.random()*6-2);    
+      mySpin = (int)(Math.random()*3+2)*myRotateDirection;    
     }    
     else if (myCenterX<0)
     {     
-      myCenterX = width;  
+      myCenterX = 15000;  
       myDirectionX = Math.random()*-2-1;
       myDirectionY = Math.random()*6-3; 
-      mySpin = (int)(Math.random()*6-2); 
+      mySpin = (int)(Math.random()*3+2)*myRotateDirection;   
     }    
-    if(myCenterY >height)
+    if(myCenterY >10000)
     {    
       myCenterY = 0;  
       myDirectionX = Math.random()*6-3;
       myDirectionY = Math.random()*2+1;  
-      mySpin = (int)(Math.random()*6-2);
+      mySpin = (int)(Math.random()*3+2)*myRotateDirection;  
     }   
     else if (myCenterY < 0)
     {     
-      myCenterY = height; 
+      myCenterY = 10000; 
       myDirectionX = Math.random()*6-3;
       myDirectionY = Math.random()*-2-1; 
-      mySpin = (int)(Math.random()*6-2);  
+      mySpin = (int)(Math.random()*3+2)*myRotateDirection;    
     }   
 
   }
