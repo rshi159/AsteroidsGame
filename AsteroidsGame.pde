@@ -1,6 +1,7 @@
 SpaceShip myShip;//your variable declarations here
 Asteroid myAsteroid;
 NormalParticle[] particle;
+Asteroid[] cluster;
 private boolean wIsPressed = false;
 private boolean dIsPressed = false;
 private boolean aIsPressed = false;
@@ -15,6 +16,11 @@ public void setup()
     {
       particle[i]= new NormalParticle();
     }
+  cluster = new Asteroid[2000];
+    for(int j = 0; j <500; j++)
+    {
+      cluster[j] = new Asteroid();
+    }
 }
 public void draw() 
 {
@@ -23,11 +29,14 @@ public void draw()
   {
       particle[i].show();//your code here
   }
-  myAsteroid.move();
-  myAsteroid.show();
+    for(int j = 0; j <500; j++)
+    {
+      cluster[j].show();
+    }
   myShip.show();//your code here
   myShip.show2();
   myShip.move();
+  System.out.println(myShip.getCoordX());
   if(wIsPressed == true && dIsPressed == true)
   {
     myShip.accelerate(.2);
@@ -109,8 +118,8 @@ void keyReleased()
 }
 class SpaceShip extends Floater  
 { 
-  protected int corners2;  //the number of corners, a triangular floater has 3   
-  protected int myColor2;
+  protected int corners2, coordX;  //the number of corners, a triangular floater has 3   
+  protected int myColor2, coordY;
   protected int[] xCorners2;   
   protected int[] yCorners2;  
   public SpaceShip()
@@ -132,6 +141,8 @@ class SpaceShip extends Floater
       myDirectionX = 0;
       myDirectionY = 0;
       myPointDirection = 0;
+      coordX = 7500;
+      coordY = 5000;
     } 
   public void setX(int x) {x = (int)myCenterX;}  
   public int getX() {return (int)myCenterX;}   
@@ -143,6 +154,8 @@ class SpaceShip extends Floater
   public double getDirectionY() {return myDirectionY;}
   public void setPointDirection(int degrees) {degrees = (int)myPointDirection;}
   public double getPointDirection() {return myPointDirection;} //your code here
+  public int getCoordX() {return (int)coordX;}
+  public int getCoordY() {return (int)coordY;}
   public void hyperspace()
     {
       myDirectionX = 0;
@@ -171,26 +184,24 @@ class SpaceShip extends Floater
   public void move ()   //move the floater in the current direction of travel
   {      
     //change the x and y coordinates by myDirectionX and myDirectionY       
-    myCenterX += myDirectionX;    
-    myCenterY += myDirectionY;     
-
-    //wrap around screen    
-    if(myCenterX >width)
+    myCenterX = 360; 
+    myCenterY = 360;
+    if(coordX >15000)
     {     
-      myCenterX = 0;    
+      coordX = 14800;    
     }    
-    else if (myCenterX<0)
+    else if (coordX<0)
     {     
-      myCenterX = width;    
+      coordX = 20;    
     }    
-    if(myCenterY >height)
+    if(coordY >10000)
     {    
-      myCenterY = 0;    
+      coordY = 9980;    
     }   
-    else if (myCenterY < 0)
+    else if (coordY < 0)
     {     
-      myCenterY = height;    
-    }   
+      coordY = 20;    
+    }      
   }   
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
@@ -286,7 +297,7 @@ class NormalParticle
   {
     noStroke();
     fill(myColorR,myColorG,myColorB);
-    ellipse((float)myX, (float)myY, (float)mySize, (float)mySize);
+    ellipse((float)myX + ((360 -myShip.getX())/100), (float)myY + ((360 -myShip.getY())/100), (float)mySize, (float)mySize);
   }
 }
 
@@ -303,8 +314,8 @@ class Asteroid extends Floater
     xCorners = xS;
     yCorners = yS;
     myColor=180;
-    myCenterX = 360;
-    myCenterY = 360;
+    myCenterX = 7500;
+    myCenterY = Math.random()*10000;
     myDirectionX = Math.random()*6-3;
     myDirectionY = Math.random()*6-3;
     myPointDirection = 0;
