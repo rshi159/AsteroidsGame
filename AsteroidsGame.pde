@@ -16,8 +16,8 @@ public void setup()
     {
       particle[i]= new NormalParticle();
     }
-  cluster = new Asteroid[2000];
-    for(int j = 0; j <500; j++)
+  cluster = new Asteroid[8];
+    for(int j = 0; j <8; j++)
     {
       cluster[j] = new Asteroid();
     }
@@ -29,41 +29,43 @@ public void draw()
   {
       particle[i].show();//your code here
   }
-    for(int j = 0; j <500; j++)
+    for(int j = 0; j <8; j++)
     {
+      cluster[j].move();
       cluster[j].show();
     }
   myShip.show();//your code here
   myShip.show2();
   myShip.move();
   System.out.println(myShip.getCoordX());
+  System.out.println(myShip.getCoordY());
   if(wIsPressed == true && dIsPressed == true)
   {
-    myShip.accelerate(.2);
+    myShip.accelerate(.02);
     myShip.rotate(8);
   }
   else if(wIsPressed == true && aIsPressed == true)
   {
-    myShip.accelerate(.2);
+    myShip.accelerate(.02);
     myShip.rotate(-8);
   }
   else if(sIsPressed == true && dIsPressed == true)
   {
-    myShip.accelerate(-.2);
+    myShip.accelerate(-.02);
     myShip.rotate(10);
   }
   else if(sIsPressed == true && aIsPressed == true)
   {
-    myShip.accelerate(-.2);
+    myShip.accelerate(-.02);
     myShip.rotate(-10);
   }
   else if (wIsPressed ==true)
   {
-    myShip.accelerate(.2);
+    myShip.accelerate(.02);
   }
   else if(sIsPressed == true)
   {
-    myShip.accelerate(-.2);
+    myShip.accelerate(-.02);
   }
   else if(aIsPressed == true)
   {
@@ -118,8 +120,9 @@ void keyReleased()
 }
 class SpaceShip extends Floater  
 { 
-  protected int corners2, coordX;  //the number of corners, a triangular floater has 3   
-  protected int myColor2, coordY;
+  protected int corners2;  //the number of corners, a triangular floater has 3   
+  protected int myColor2;
+  protected double coordX, coordY;
   protected int[] xCorners2;   
   protected int[] yCorners2;  
   public SpaceShip()
@@ -161,8 +164,8 @@ class SpaceShip extends Floater
       myDirectionX = 0;
       myDirectionY = 0;
       myPointDirection = Math.random()*360;
-      myCenterX = Math.random()*720;
-      myCenterY = Math.random()*720;
+      coordY = Math.random()*10000;
+      coordX = Math.random()*15000;
     }
   public void show2 ()  //Draws the floater at the current position  
   {             
@@ -186,23 +189,41 @@ class SpaceShip extends Floater
     //change the x and y coordinates by myDirectionX and myDirectionY       
     myCenterX = 360; 
     myCenterY = 360;
+    coordX += myDirectionX;
+    coordY += myDirectionY;
     if(coordX >15000)
     {     
-      coordX = 14800;    
+      coordX = 14800;
     }    
     else if (coordX<0)
     {     
-      coordX = 20;    
+      coordX = 20;
     }    
     if(coordY >10000)
     {    
-      coordY = 9980;    
+      coordY = 9980;
     }   
     else if (coordY < 0)
     {     
-      coordY = 20;    
+      coordY = 20; 
     }      
-  }   
+  }
+    public void accelerate (double dAmount)   
+  {          
+    //convert the current direction the floater is pointing to radians    
+    double dRadians =myPointDirection*(Math.PI/180);     
+    //change coordinates of direction of travel    
+    myDirectionX += ((dAmount) * Math.cos(dRadians));    
+    myDirectionY += ((dAmount) * Math.sin(dRadians));
+    if (myDirectionX > 10)
+      myDirectionX = 10;
+    if (myDirectionX < -10)
+      myDirectionX = -10;
+    if (myDirectionY > 10)
+      myDirectionY = 10;
+    if (myDirectionY < -10)
+      myDirectionY = -10;
+  }      
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
@@ -289,6 +310,14 @@ class NormalParticle
     mySize = Math.random()*7;
     myX = Math.random()*720;
     myY = Math.random()*720;
+    if (myX > 900)
+      myX = -180;
+    if (myX < -180)
+      myX = 900;
+    if (myY > 900)
+      myY = -180;
+    if (myY < -180)
+      myY = 900;
     myColorR = (int)(Math.random()*255);
     myColorG = (int)(Math.random()*255);
     myColorB = (int)(Math.random()*255);
@@ -297,7 +326,7 @@ class NormalParticle
   {
     noStroke();
     fill(myColorR,myColorG,myColorB);
-    ellipse((float)myX + ((360 -myShip.getX())/100), (float)myY + ((360 -myShip.getY())/100), (float)mySize, (float)mySize);
+    ellipse((float)myX + ((float)(360 -myShip.getDirectionX())), (float)(myY + (360 -myShip.getDirectionY())), (float)mySize, (float)mySize);
   }
 }
 
@@ -314,8 +343,8 @@ class Asteroid extends Floater
     xCorners = xS;
     yCorners = yS;
     myColor=180;
-    myCenterX = 7500;
-    myCenterY = Math.random()*10000;
+    myCenterX = 360;
+    myCenterY = 360;
     myDirectionX = Math.random()*6-3;
     myDirectionY = Math.random()*6-3;
     myPointDirection = 0;
@@ -342,30 +371,30 @@ class Asteroid extends Floater
     myCenterY += myDirectionY;     
 
     //wrap around screen    
-    if(myCenterX >15000)
+    if(myCenterX >900)
     {     
-      myCenterX = 0;
+      myCenterX = -180;
       myDirectionX = Math.random()*2+1;
       myDirectionY = Math.random()*6-3;
       mySpin = (int)(Math.random()*3+2)*myRotateDirection;    
     }    
-    else if (myCenterX<0)
+    else if (myCenterX < -180)
     {     
-      myCenterX = 15000;  
+      myCenterX = 900;  
       myDirectionX = Math.random()*-2-1;
       myDirectionY = Math.random()*6-3; 
       mySpin = (int)(Math.random()*3+2)*myRotateDirection;   
     }    
-    if(myCenterY >10000)
+    if(myCenterY >900)
     {    
       myCenterY = 0;  
       myDirectionX = Math.random()*6-3;
       myDirectionY = Math.random()*2+1;  
       mySpin = (int)(Math.random()*3+2)*myRotateDirection;  
     }   
-    else if (myCenterY < 0)
+    else if (myCenterY < -180)
     {     
-      myCenterY = 10000; 
+      myCenterY = 900; 
       myDirectionX = Math.random()*6-3;
       myDirectionY = Math.random()*-2-1; 
       mySpin = (int)(Math.random()*3+2)*myRotateDirection;    
