@@ -11,7 +11,7 @@ public void setup()
   size(720,720);
   myShip = new SpaceShip();
   myAsteroid = new Asteroid();
-  particle = new NormalParticle[90];
+  particle = new NormalParticle[120];
     for(int i = 0; i < particle.length; i++)
     {
       particle[i]= new NormalParticle();
@@ -38,8 +38,10 @@ public void draw()
   myShip.show();//your code here
   myShip.show2();
   myShip.move();
-  System.out.println(myShip.getCoordX());
-  System.out.println(myShip.getCoordY());
+  //System.out.println(myShip.getCoordX());
+  //System.out.println(myShip.getCoordY());
+  text("x-coordinate = " + myShip.getCoordX(),30,30);
+  text("y-coordinate = " + myShip.getCoordY(),30,50); 
   if(wIsPressed == true && dIsPressed == true)
   {
     myShip.accelerate(.02);
@@ -98,6 +100,10 @@ void keyPressed()
   if (key == 'f')
   {
     myShip.hyperspace();
+    for(int j = 0; j <8; j++)
+    {
+      cluster[j].shuffle();
+    }
   }
 }
 void keyReleased()
@@ -389,8 +395,8 @@ class Asteroid extends Floater
       myRotateDirection = -1;
     rotate(mySpin);
       //change the x and y coordinates by myDirectionX and myDirectionY       
-    myCenterX += myDirectionX;    
-    myCenterY += myDirectionY;     
+    myCenterX += myDirectionX - myShip.getDirectionX();    
+    myCenterY += myDirectionY - myShip.getDirectionY();     
 
     //wrap around screen    
     if(myCenterX >900)
@@ -421,6 +427,10 @@ class Asteroid extends Floater
       myDirectionY = Math.random()*-2-1; 
       mySpin = (int)(Math.random()*3+2)*myRotateDirection;    
     }   
-
+  }
+  public void shuffle()
+  {
+    myCenterX = Math.random()*1080 - 180;
+    myCenterY = Math.random()*1080 - 180;
   }
 }
