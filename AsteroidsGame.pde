@@ -11,8 +11,8 @@ public void setup()
   size(720,720);
   myShip = new SpaceShip();
   myAsteroid = new Asteroid();
-  particle = new NormalParticle[30];
-    for(int i = 0; i < 30; i++)
+  particle = new NormalParticle[90];
+    for(int i = 0; i < particle.length; i++)
     {
       particle[i]= new NormalParticle();
     }
@@ -25,8 +25,9 @@ public void setup()
 public void draw() 
 {
   background(30);
-    for(int i = 0; i < 30; i++)
+    for(int i = 0; i < particle.length; i++)
   {
+      particle[i].move();
       particle[i].show();//your code here
   }
     for(int j = 0; j <8; j++)
@@ -308,8 +309,8 @@ class NormalParticle
   NormalParticle()
   {
     mySize = Math.random()*7;
-    myX = Math.random()*720;
-    myY = Math.random()*720;
+    myX = Math.random()*1080-180;
+    myY = Math.random()*1080-180;
     if (myX > 900)
       myX = -180;
     if (myX < -180)
@@ -326,7 +327,28 @@ class NormalParticle
   {
     noStroke();
     fill(myColorR,myColorG,myColorB);
-    ellipse((float)myX + ((float)(360 -myShip.getDirectionX())), (float)(myY + (360 -myShip.getDirectionY())), (float)mySize, (float)mySize);
+    ellipse((float)myX, (float)myY, (float)mySize, (float)mySize);
+  }
+  public void move()
+  {
+    myX -= myShip.getDirectionX();
+    myY -= myShip.getDirectionY();
+    if(myX >900)
+    {     
+      myX = -180;
+    }    
+    else if (myX < -180)
+    {     
+      myX = 900;   
+    }    
+    if(myY > 900)
+    {    
+      myY = 0;    
+    }   
+    else if (myY < -180)
+    {     
+      myY = 900;  
+    }   
   }
 }
 
