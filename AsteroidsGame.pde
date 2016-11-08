@@ -1,7 +1,5 @@
 SpaceShip myShip;//your variable declarations here
-Asteroid myAsteroid;
 NormalParticle[] particle;
-Asteroid[] cluster;
 private boolean wIsPressed = false;
 private boolean dIsPressed = false;
 private boolean aIsPressed = false;
@@ -9,17 +7,17 @@ private boolean sIsPressed = false;
 public void setup() 
 {//your code here
   size(720,720);
+  ArrayList <Asteroid> myCluster;
+  myCluster = new ArrayList <Asteroid>();
+  for(int j = 0; j < myCluster.size(); j++)
+  {
+    myCluster.add(0, new Asteroid());
+  }
   myShip = new SpaceShip();
-  myAsteroid = new Asteroid();
   particle = new NormalParticle[120];
     for(int i = 0; i < particle.length; i++)
     {
       particle[i]= new NormalParticle();
-    }
-  cluster = new Asteroid[8];
-    for(int j = 0; j <8; j++)
-    {
-      cluster[j] = new Asteroid();
     }
 }
 public void draw() 
@@ -32,8 +30,8 @@ public void draw()
   }
     for(int j = 0; j <8; j++)
     {
-      cluster[j].move();
-      cluster[j].show();
+      (myCluster.get(j)).move();
+      (myCluster.get(j)).show();
     }
   myShip.show();//your code here
   myShip.show2();
@@ -44,31 +42,31 @@ public void draw()
   text("y-coordinate = " + myShip.getCoordY(),30,50); 
   if(wIsPressed == true && dIsPressed == true)
   {
-    myShip.accelerate(.02);
+    myShip.accelerate(.05);
     myShip.rotate(8);
   }
   else if(wIsPressed == true && aIsPressed == true)
   {
-    myShip.accelerate(.02);
+    myShip.accelerate(.05);
     myShip.rotate(-8);
   }
   else if(sIsPressed == true && dIsPressed == true)
   {
-    myShip.accelerate(-.02);
+    myShip.accelerate(-.05);
     myShip.rotate(10);
   }
   else if(sIsPressed == true && aIsPressed == true)
   {
-    myShip.accelerate(-.02);
+    myShip.accelerate(-.05);
     myShip.rotate(-10);
   }
   else if (wIsPressed ==true)
   {
-    myShip.accelerate(.02);
+    myShip.accelerate(.05);
   }
   else if(sIsPressed == true)
   {
-    myShip.accelerate(-.02);
+    myShip.accelerate(-.05);
   }
   else if(aIsPressed == true)
   {
@@ -222,14 +220,14 @@ class SpaceShip extends Floater
     //change coordinates of direction of travel    
     myDirectionX += ((dAmount) * Math.cos(dRadians));    
     myDirectionY += ((dAmount) * Math.sin(dRadians));
-    if (myDirectionX > 10)
+    /*if (myDirectionX > 10)
       myDirectionX = 10;
     if (myDirectionX < -10)
       myDirectionX = -10;
     if (myDirectionY > 10)
       myDirectionY = 10;
     if (myDirectionY < -10)
-      myDirectionY = -10;
+      myDirectionY = -10;*/
   }      
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
