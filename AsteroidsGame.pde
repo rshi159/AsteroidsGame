@@ -1,5 +1,6 @@
 SpaceShip myShip;//your variable declarations here
 NormalParticle[] particle;
+ArrayList <Asteroid> myCluster;
 private boolean wIsPressed = false;
 private boolean dIsPressed = false;
 private boolean aIsPressed = false;
@@ -7,11 +8,10 @@ private boolean sIsPressed = false;
 public void setup() 
 {//your code here
   size(720,720);
-  ArrayList <Asteroid> myCluster;
   myCluster = new ArrayList <Asteroid>();
-  for(int j = 0; j < myCluster.size(); j++)
+  for(int j = 0; j < 8; j++)
   {
-    myCluster.add(0, new Asteroid());
+    myCluster.add(new Asteroid());
   }
   myShip = new SpaceShip();
   particle = new NormalParticle[120];
@@ -28,11 +28,11 @@ public void draw()
       particle[i].move();
       particle[i].show();//your code here
   }
-    for(int j = 0; j <8; j++)
-    {
-      (myCluster.get(j)).move();
-      (myCluster.get(j)).show();
-    }
+  for(int j = 0; j <myCluster.size(); j++)
+  {
+    myCluster.get(j).move();
+    myCluster.get(j).show();
+  }
   myShip.show();//your code here
   myShip.show2();
   myShip.move();
@@ -44,16 +44,20 @@ public void draw()
   {
     myShip.accelerate(.05);
     myShip.rotate(8);
+    myShip.show3();
+    myShip.show4();
   }
   else if(wIsPressed == true && aIsPressed == true)
   {
     myShip.accelerate(.05);
     myShip.rotate(-8);
+    myShip.show3();
   }
   else if(sIsPressed == true && dIsPressed == true)
   {
     myShip.accelerate(-.05);
     myShip.rotate(10);
+    myShip.show4();
   }
   else if(sIsPressed == true && aIsPressed == true)
   {
@@ -63,6 +67,7 @@ public void draw()
   else if (wIsPressed ==true)
   {
     myShip.accelerate(.05);
+    myShip.show3();
   }
   else if(sIsPressed == true)
   {
@@ -75,6 +80,7 @@ public void draw()
   else if(dIsPressed == true)
   {
     myShip.rotate(8);
+    myShip.show4();
   }
 }
 void keyPressed()
@@ -98,9 +104,9 @@ void keyPressed()
   if (key == 'f')
   {
     myShip.hyperspace();
-    for(int j = 0; j <8; j++)
+    for(int j = 0; j < myCluster.size(); j++)
     {
-      cluster[j].shuffle();
+      myCluster.get(j).shuffle();
     }
   }
 }
@@ -125,13 +131,20 @@ void keyReleased()
 }
 class SpaceShip extends Floater  
 { 
-  protected int corners2;  //the number of corners, a triangular floater has 3   
-  protected int myColor2;
+  protected int corners2, corners3, corners4;  //the number of corners, a triangular floater has 3   
+  protected int myColor2, myColor3, myColor4;
   protected double coordX, coordY;
-  protected int[] xCorners2;   
-  protected int[] yCorners2;  
+  protected int[] xCorners2, xCorners3, xCorners4;   
+  protected int[] yCorners2, yCorners3, yCorners4;  
   public SpaceShip()
     {  
+      myCenterX = 360;
+      myCenterY = 360;
+      myDirectionX = 0;
+      myDirectionY = 0;
+      myPointDirection = 0;
+      coordX = 7500;
+      coordY = 5000;
       corners = 20;
       int[] xS = {20, 10,-12, -14, -16,-18,-22,-23,-24,-26,-26,-24,-23,-22,-18,-16,-14,-12,10,20};
       int[] yS = {-2, -4,-4,-2,-2,-4,-4,-1,-4,-4,4,4,1,4,4,2,2,4,4,2};
@@ -142,15 +155,20 @@ class SpaceShip extends Floater
       int[] yS2 = {-4,-8,-14,-24,-22,-24,-14,-4,-16,-16,-8,-4,4,8,16,16,4,14,24,22,24,14,8,4};
       xCorners2 = xS2;
       yCorners2 = yS2;
+      corners3 = 5;
+      int[] xS3 = {-26,-34,-38,-34,-26};
+      int[] yS3 = {-4,-3,0,3,4};
+      xCorners3 = xS3;
+      yCorners3 = yS3;
+      corners4 = 5;
+      int[] xS4 = {3,-4,-8,-4,3};
+      int[] yS4 = {-18,-17,-16,-15,-14};
+      xCorners4 = xS4;
+      yCorners4 = yS4;
+      myColor4 = color(90,240,60,255);
+      myColor3 = color(90,60,240,255);
       myColor2 = color(0,255,150,60);
-      myColor=color(148,191,188);
-      myCenterX = 360;
-      myCenterY = 360;
-      myDirectionX = 0;
-      myDirectionY = 0;
-      myPointDirection = 0;
-      coordX = 7500;
-      coordY = 5000;
+      myColor  = color(148,191,188);
     } 
   public void setX(int x) {x = (int)myCenterX;}  
   public int getX() {return (int)myCenterX;}   
@@ -185,6 +203,40 @@ class SpaceShip extends Floater
       //rotate and translate the coordinates of the floater using current direction 
       xRotatedTranslated = (int)((xCorners2[nI]* Math.cos(dRadians)) - (yCorners2[nI] * Math.sin(dRadians))+myCenterX);     
       yRotatedTranslated = (int)((xCorners2[nI]* Math.sin(dRadians)) + (yCorners2[nI] * Math.cos(dRadians))+myCenterY);      
+      vertex(xRotatedTranslated,yRotatedTranslated);    
+    }   
+    endShape(CLOSE);
+  }   
+    public void show3 ()  //Draws the flames at the current position  
+  {             
+    fill(myColor3);   
+    stroke(myColor3);    
+    //convert degrees to radians for sin and cos         
+    double dRadians = myPointDirection*(Math.PI/180);                 
+    int xRotatedTranslated, yRotatedTranslated;    
+    beginShape();         
+    for(int nI = 0; nI < corners3; nI++)    
+    {     
+      //rotate and translate the coordinates of the floater using current direction 
+      xRotatedTranslated = (int)((xCorners3[nI]* Math.cos(dRadians)) - (yCorners3[nI] * Math.sin(dRadians))+myCenterX);     
+      yRotatedTranslated = (int)((xCorners3[nI]* Math.sin(dRadians)) + (yCorners3[nI] * Math.cos(dRadians))+myCenterY);      
+      vertex(xRotatedTranslated,yRotatedTranslated);    
+    }   
+    endShape(CLOSE);
+  }   
+    public void show4()  //Draws the flames at the wings current position  
+  {             
+    fill(myColor4);   
+    stroke(myColor4);    
+    //convert degrees to radians for sin and cos         
+    double dRadians = myPointDirection*(Math.PI/180);                 
+    int xRotatedTranslated, yRotatedTranslated;    
+    beginShape();         
+    for(int nI = 0; nI < corners4; nI++)    
+    {     
+      //rotate and translate the coordinates of the floater using current direction 
+      xRotatedTranslated = (int)((xCorners4[nI]* Math.cos(dRadians)) - (yCorners4[nI] * Math.sin(dRadians))+myCenterX);     
+      yRotatedTranslated = (int)((xCorners4[nI]* Math.sin(dRadians)) + (yCorners4[nI] * Math.cos(dRadians))+myCenterY);      
       vertex(xRotatedTranslated,yRotatedTranslated);    
     }   
     endShape(CLOSE);
