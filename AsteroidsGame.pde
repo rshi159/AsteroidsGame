@@ -40,18 +40,32 @@ public void draw()
   //System.out.println(myShip.getCoordY());
   text("x-coordinate = " + myShip.getCoordX(),30,30);
   text("y-coordinate = " + myShip.getCoordY(),30,50); 
-  if(wIsPressed == true && dIsPressed == true)
+  if(wIsPressed == true && aIsPressed == true && dIsPressed == true)
+  {
+    myShip.accelerate(.1);
+    myShip.show3();
+    myShip.show4();
+    myShip.show5();
+  }
+  else if(wIsPressed == true && dIsPressed == true)
   {
     myShip.accelerate(.05);
     myShip.rotate(8);
     myShip.show3();
     myShip.show4();
   }
+  else if(aIsPressed == true && dIsPressed == true)
+  {
+    myShip.show4();
+    myShip.show5();
+    myShip.accelerate(.04);
+  }
   else if(wIsPressed == true && aIsPressed == true)
   {
     myShip.accelerate(.05);
     myShip.rotate(-8);
     myShip.show3();
+    myShip.show5();
   }
   else if(sIsPressed == true && dIsPressed == true)
   {
@@ -63,6 +77,7 @@ public void draw()
   {
     myShip.accelerate(-.05);
     myShip.rotate(-10);
+    myShip.show5();
   }
   else if (wIsPressed ==true)
   {
@@ -75,10 +90,13 @@ public void draw()
   }
   else if(aIsPressed == true)
   {
+    myShip.accelerate(.02);
     myShip.rotate(-8);
+    myShip.show5();
   }
   else if(dIsPressed == true)
   {
+    myShip.accelerate(.02);
     myShip.rotate(8);
     myShip.show4();
   }
@@ -131,11 +149,11 @@ void keyReleased()
 }
 class SpaceShip extends Floater  
 { 
-  protected int corners2, corners3, corners4;  //the number of corners, a triangular floater has 3   
-  protected int myColor2, myColor3, myColor4;
+  protected int corners2, corners3, corners4, corners5;  //the number of corners, a triangular floater has 3   
+  protected int myColor2, myColor3, myColor4, myColor5, myColorStroke;
   protected double coordX, coordY;
-  protected int[] xCorners2, xCorners3, xCorners4;   
-  protected int[] yCorners2, yCorners3, yCorners4;  
+  protected int[] xCorners2, xCorners3, xCorners4, xCorners5;   
+  protected int[] yCorners2, yCorners3, yCorners4, yCorners5;  
   public SpaceShip()
     {  
       myCenterX = 360;
@@ -165,10 +183,17 @@ class SpaceShip extends Floater
       int[] yS4 = {-18,-17,-16,-15,-14};
       xCorners4 = xS4;
       yCorners4 = yS4;
+      myColor5 = color(90,240,60,255);
       myColor4 = color(90,240,60,255);
       myColor3 = color(90,60,240,255);
+      myColorStroke = color(206,31,255,50);
       myColor2 = color(0,255,150,60);
       myColor  = color(148,191,188);
+      corners5 = 5;
+      int[] xS5 = {3,-4,-8,-4,3};
+      int[] yS5 = {18,17,16,15,14};
+      xCorners5 = xS5;
+      yCorners5 = yS5;
     } 
   public void setX(int x) {x = (int)myCenterX;}  
   public int getX() {return (int)myCenterX;}   
@@ -210,7 +235,7 @@ class SpaceShip extends Floater
     public void show3 ()  //Draws the flames at the current position  
   {             
     fill(myColor3);   
-    stroke(myColor3);    
+    stroke(myColorStroke);    
     //convert degrees to radians for sin and cos         
     double dRadians = myPointDirection*(Math.PI/180);                 
     int xRotatedTranslated, yRotatedTranslated;    
@@ -227,7 +252,7 @@ class SpaceShip extends Floater
     public void show4()  //Draws the flames at the wings current position  
   {             
     fill(myColor4);   
-    stroke(myColor4);    
+    stroke(myColorStroke);    
     //convert degrees to radians for sin and cos         
     double dRadians = myPointDirection*(Math.PI/180);                 
     int xRotatedTranslated, yRotatedTranslated;    
@@ -240,7 +265,24 @@ class SpaceShip extends Floater
       vertex(xRotatedTranslated,yRotatedTranslated);    
     }   
     endShape(CLOSE);
-  }   
+  }  
+    public void show5()  //Draws the flames at the wings current position  
+  {             
+    fill(myColor5);   
+    stroke(myColorStroke);    
+    //convert degrees to radians for sin and cos         
+    double dRadians = myPointDirection*(Math.PI/180);                 
+    int xRotatedTranslated, yRotatedTranslated;    
+    beginShape();         
+    for(int nI = 0; nI < corners5; nI++)    
+    {     
+      //rotate and translate the coordinates of the floater using current direction 
+      xRotatedTranslated = (int)((xCorners5[nI]* Math.cos(dRadians)) - (yCorners5[nI] * Math.sin(dRadians))+myCenterX);     
+      yRotatedTranslated = (int)((xCorners5[nI]* Math.sin(dRadians)) + (yCorners5[nI] * Math.cos(dRadians))+myCenterY);      
+      vertex(xRotatedTranslated,yRotatedTranslated);    
+    }   
+    endShape(CLOSE);
+  }    
   public void move ()   //move the floater in the current direction of travel
   {      
     //change the x and y coordinates by myDirectionX and myDirectionY       
@@ -454,7 +496,8 @@ class Asteroid extends Floater
       myCenterX = -180;
       myDirectionX = Math.random()*2+1;
       myDirectionY = Math.random()*6-3;
-      mySpin = (int)(Math.random()*3+2)*myRotateDirection;    
+      mySpin = (int)(Math.random()*3+2)*myRotateDirection;
+      myColor = 180;    
     }    
     else if (myCenterX < -180)
     {     
@@ -462,6 +505,7 @@ class Asteroid extends Floater
       myDirectionX = Math.random()*-2-1;
       myDirectionY = Math.random()*6-3; 
       mySpin = (int)(Math.random()*3+2)*myRotateDirection;   
+      myColor = 180;  
     }    
     if(myCenterY >900)
     {    
@@ -469,14 +513,20 @@ class Asteroid extends Floater
       myDirectionX = Math.random()*6-3;
       myDirectionY = Math.random()*2+1;  
       mySpin = (int)(Math.random()*3+2)*myRotateDirection;  
+      myColor = 180;  
     }   
     else if (myCenterY < -180)
     {     
       myCenterY = 900; 
       myDirectionX = Math.random()*6-3;
       myDirectionY = Math.random()*-2-1; 
-      mySpin = (int)(Math.random()*3+2)*myRotateDirection;    
-    }   
+      mySpin = (int)(Math.random()*3+2)*myRotateDirection;   
+      myColor = 180;   
+    }
+    if(dist((float)myCenterX, (float)myCenterY,(float) myShip.getX(),(float) myShip.getY()) <=40)   
+    {
+      myColor = color(30,30,30,0);
+    }
   }
   public void shuffle()
   {
