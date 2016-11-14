@@ -7,9 +7,10 @@ private boolean aIsPressed = false;
 private boolean sIsPressed = false;
 public void setup() 
 {//your code here
+  int nAsteroids = 8;
   size(720,720);
   myCluster = new ArrayList <Asteroid>();
-  for(int j = 0; j < 8; j++)
+  for(int j = 0; j < nAsteroids; j++)
   {
     myCluster.add(new Asteroid());
   }
