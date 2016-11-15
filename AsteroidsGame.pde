@@ -1,6 +1,7 @@
 SpaceShip myShip;//your variable declarations here
 NormalParticle[] particle;
 ArrayList <Asteroid> myCluster;
+ArrayList <Bullets> myStream;
 private boolean wIsPressed = false;
 private boolean dIsPressed = false;
 private boolean aIsPressed = false;
@@ -13,6 +14,11 @@ public void setup()
   for(int j = 0; j < nAsteroids; j++)
   {
     myCluster.add(new Asteroid());
+  }
+  myStream = new ArrayList <Bullets>();
+  for(int k = 0; k < myShip.getnBullets(); k++)
+  {
+    myStream.add(new Bullets());
   }
   myShip = new SpaceShip();
   particle = new NormalParticle[120];
@@ -33,6 +39,11 @@ public void draw()
   {
     myCluster.get(j).move();
     myCluster.get(j).show();
+  }
+  for(int k = 0; k < myStream.size(); k++)
+  {
+    myStream.get(k).move();
+    myStream.get(k).show();
   }
   myShip.show();//your code here
   myShip.show2();
@@ -155,8 +166,10 @@ class SpaceShip extends Floater
   protected double coordX, coordY;
   protected int[] xCorners2, xCorners3, xCorners4, xCorners5;   
   protected int[] yCorners2, yCorners3, yCorners4, yCorners5;  
+  protected int nBullets;
   public SpaceShip()
     {  
+      nBullets = 0;
       myCenterX = 360;
       myCenterY = 360;
       myDirectionX = 0;
@@ -208,6 +221,8 @@ class SpaceShip extends Floater
   public double getPointDirection() {return myPointDirection;} //your code here
   public int getCoordX() {return (int)coordX;}
   public int getCoordY() {return (int)coordY;}
+  public void setnBullet(int x) {x = (int) nBullets;}
+  public int getnBullets() {return (int) nBullets;}
   public void hyperspace()
     {
       myDirectionX = 0;
@@ -323,6 +338,10 @@ class SpaceShip extends Floater
       myDirectionY = 10;
     if (myDirectionY < -10)
       myDirectionY = -10;*/
+  }
+  public void mouseClicked()
+  {
+    nBullets += 1;
   }      
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
@@ -533,5 +552,36 @@ class Asteroid extends Floater
   {
     myCenterX = Math.random()*1080 - 180;
     myCenterY = Math.random()*1080 - 180;
+  }
+}
+class Bullets extends Floater
+{
+  public void setX(int x) {x = (int)myCenterX;}  
+  public int getX() {return (int)myCenterX;}   
+  public void setY(int y) {y = (int)myCenterY;}
+  public int getY() {return (int)myCenterY;}
+  public void setDirectionX(double x) {x = myDirectionX;}   
+  public double getDirectionX() {return myDirectionX;}
+  public void setDirectionY(double y) {y = myDirectionY;}
+  public double getDirectionY() {return myDirectionY;}
+  public void setPointDirection(int degrees) {degrees = (int)myPointDirection;}
+  public double getPointDirection() {return myPointDirection;} //your code here
+  public Bullets()
+  {
+    myCenterX = myShip.myCenterX;
+    myCenterY = myShip.myCenterY;
+    myPointDirection = myShip.myPointDirection;
+    double dRadians =myPointDirection*(Math.PI/180);
+    myDirectionX = 5*Math.sin(dRadians) + myDirectionX;
+    myDirectionY = 5*Math.cos(dRadians) + myDirectionY;
+  }
+  public void show()
+  {
+    ellipse(myCenterX, myCenterY, 15, 15);
+  }
+  public void move()
+  {
+    myCenterX += myDirectionX;
+    myCenterY += myDirectionY;
   }
 }
