@@ -2,12 +2,14 @@ SpaceShip myShip;//your variable declarations here
 NormalParticle[] particle;
 ArrayList <Asteroid> myCluster;
 ArrayList <Bullets> myStream;
+int nBullets = 0;
 private boolean wIsPressed = false;
 private boolean dIsPressed = false;
 private boolean aIsPressed = false;
 private boolean sIsPressed = false;
 public void setup() 
 {//your code here
+  myShip = new SpaceShip();
   int nAsteroids = 8;
   size(720,720);
   myCluster = new ArrayList <Asteroid>();
@@ -15,25 +17,26 @@ public void setup()
   {
     myCluster.add(new Asteroid());
   }
-  myStream = new ArrayList <Bullets>();
-  for(int k = 0; k < myShip.getnBullets(); k++)
-  {
-    myStream.add(new Bullets());
-  }
-  myShip = new SpaceShip();
   particle = new NormalParticle[120];
     for(int i = 0; i < particle.length; i++)
     {
       particle[i]= new NormalParticle();
     }
+  myStream = new ArrayList <Bullets>();
 }
+
 public void draw() 
 {
+  System.out.println(nBullets);
   background(30);
     for(int i = 0; i < particle.length; i++)
   {
       particle[i].move();
       particle[i].show();//your code here
+  }
+  for(int k = 0; k < myStream.size(); k++)
+  {
+    myStream.add(new Bullets());
   }
   for(int j = 0; j <myCluster.size(); j++)
   {
@@ -44,6 +47,14 @@ public void draw()
   {
     myStream.get(k).move();
     myStream.get(k).show();
+    if((myStream.get(k).getX() > 1080 || (myStream.get(k).getX() < -180)))
+    {
+      myStream.remove(k);
+      nBullets = nBullets - 1;
+    }
+    else if((myStream.get(k).getY() > 1080 || (myStream.get(k).getY() < -180)))
+      myStream.remove(k);
+      nBullets = nBullets - 1;
   }
   myShip.show();//your code here
   myShip.show2();
@@ -112,6 +123,10 @@ public void draw()
     myShip.rotate(8);
     myShip.show4();
   }
+}
+void mousePressed()
+{
+  myStream.add(new Bullets());
 }
 void keyPressed()
 {
@@ -339,10 +354,6 @@ class SpaceShip extends Floater
     if (myDirectionY < -10)
       myDirectionY = -10;*/
   }
-  public void mouseClicked()
-  {
-    nBullets += 1;
-  }      
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
@@ -568,16 +579,17 @@ class Bullets extends Floater
   public double getPointDirection() {return myPointDirection;} //your code here
   public Bullets()
   {
-    myCenterX = myShip.myCenterX;
-    myCenterY = myShip.myCenterY;
-    myPointDirection = myShip.myPointDirection;
+    myCenterX = 360;
+    myCenterY = 360;
+    myPointDirection = myShip.getPointDirection();
     double dRadians =myPointDirection*(Math.PI/180);
-    myDirectionX = 5*Math.sin(dRadians) + myDirectionX;
-    myDirectionY = 5*Math.cos(dRadians) + myDirectionY;
+    myDirectionX += 5*Math.cos(dRadians);
+    myDirectionY += 5*Math.sin(dRadians);
   }
   public void show()
   {
-    ellipse(myCenterX, myCenterY, 15, 15);
+    fill(255);
+    ellipse((float)myCenterX, (float)myCenterY, (float)15, (float)15);
   }
   public void move()
   {
