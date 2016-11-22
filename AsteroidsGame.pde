@@ -11,37 +11,40 @@ public void setup()
   myShip = new SpaceShip();
   size(720,720);
   myCluster = new ArrayList <Asteroid>();
-  for(int j = 0; j < 8; j++)
-  {
-    myCluster.add(new Asteroid());
-  }
   particle = new NormalParticle[120];
     for(int i = 0; i < particle.length; i++)
     {
       particle[i]= new NormalParticle();
     }
   myStream = new ArrayList <Bullets>();
+    for(int j = 0; j < 8; j++)
+  {
+    myCluster.add(new Asteroid());
+  }
 }
 
 public void draw() 
 {
   //System.out.println(myStream.size());
   background(30);
+  System.out.println(myCluster.size());
   for(int i = 0; i < particle.length; i++)
   {
       particle[i].move();
       particle[i].show();//your code here
   }
-  for(int j = 0; j <myCluster.size()-1; j++)
+  for(int j = 0; j < myCluster.size(); j++)
   {
     myCluster.get(j).move();
     myCluster.get(j).show();
-    for(int k = 0; k < (myStream.size()-1); k++)
+    for(int k = 0; k < (myStream.size()); k++)
     {
       if(dist((float)((myStream.get(k)).getX()), (float)((myStream.get(k)).getY()),(float) ((myCluster.get(j)).getX()),(float) ((myCluster.get(j)).getY())) <=40) 
         myCluster.remove(j);
     }
   }
+  if (myCluster.size() < 8)
+    myCluster.add(new Asteroid());
   for(int k = 0; k < myStream.size(); k++)
   {
     myStream.get(k).move();
