@@ -27,20 +27,20 @@ public void draw()
 {
   //System.out.println(myStream.size());
   background(30);
-    for(int i = 0; i < particle.length; i++)
+  for(int i = 0; i < particle.length; i++)
   {
       particle[i].move();
       particle[i].show();//your code here
   }
-  for(int j = 0; j <myCluster.size(); j++)
+  for(int j = 0; j <myCluster.size()-1; j++)
   {
     myCluster.get(j).move();
     myCluster.get(j).show();
-    /*for(int k = 0; k < myStream.size(); k++)
+    for(int k = 0; k < (myStream.size()-1); k++)
     {
       if(dist((float)((myStream.get(k)).getX()), (float)((myStream.get(k)).getY()),(float) ((myCluster.get(j)).getX()),(float) ((myCluster.get(j)).getY())) <=40) 
         myCluster.remove(j);
-    }*/
+    }
   }
   for(int k = 0; k < myStream.size(); k++)
   {
