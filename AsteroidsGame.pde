@@ -25,7 +25,7 @@ public void setup()
 
 public void draw() 
 {
-  System.out.println(myStream.size());
+  //System.out.println(myStream.size());
   background(30);
     for(int i = 0; i < particle.length; i++)
   {
@@ -37,7 +37,10 @@ public void draw()
     myCluster.get(j).move();
     myCluster.get(j).show();
     for(int k = 0; k < myStream.size(); k++)
-      //if(dist((float)myCenterX, (float)myCenterY,(float) myShip.getX(),(float) myShip.getY()) <=40)   
+    {
+      if(dist((float)((myStream.get(k)).getX()), (float)((myStream.get(k)).getY()),(float) ((myCluster.get(j)).getX()),(float) ((myCluster.get(j)).getY())) <=40) 
+        myCluster.remove(j);
+    }
   }
   for(int k = 0; k < myStream.size(); k++)
   {
