@@ -36,11 +36,14 @@ public void draw()
   for(int j = 0; j < myCluster.size(); j++)
   {
     myCluster.get(j).move();
-    myCluster.get(j).show();
+    if ((myCluster.get(j)).getisSolid() == true)
+      myCluster.get(j).show();
     for(int e = 0; e < (myStream.size()); e++)
     {
       if(dist((float)((myStream.get(e)).getX()), (float)((myStream.get(e)).getY()),(float) ((myCluster.get(j)).getX()),(float) ((myCluster.get(j)).getY())) <=40) 
-        //myCluster.get(j);
+        {
+          (myCluster.get(j)).setisSolid(0);
+        }
     }
   }
   if (myCluster.size() < 8)

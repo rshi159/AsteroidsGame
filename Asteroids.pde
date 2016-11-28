@@ -29,6 +29,14 @@ class Asteroid extends Floater
   public double getDirectionY() {return myDirectionY;}
   public void setPointDirection(int degrees) {degrees = (int)myPointDirection;}
   public double getPointDirection() {return myPointDirection;} //your code here
+  public void setisSolid(int x)
+    {
+      if (x==1)
+        isSolid = true;
+      else if (x==0)
+        isSolid = false;
+    }
+  public boolean getisSolid() {return isSolid;}
   public void move()
   {
     if (Math.random() > .5)
