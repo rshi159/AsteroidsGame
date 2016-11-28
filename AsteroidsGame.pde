@@ -27,7 +27,7 @@ public void draw()
 {
   //System.out.println(myStream.size());
   background(30);
-  System.out.println(myCluster.size());
+  //System.out.println(myCluster.size());
   for(int i = 0; i < particle.length; i++)
   {
       particle[i].move();
