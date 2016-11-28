@@ -2,6 +2,7 @@ SpaceShip myShip;//your variable declarations here
 NormalParticle[] particle;
 ArrayList <Asteroid> myCluster;
 ArrayList <Bullets> myStream;
+ArrayList <enemyShip> myFleet;
 private boolean wIsPressed = false;
 private boolean dIsPressed = false;
 private boolean aIsPressed = false;
@@ -18,9 +19,14 @@ public void setup()
     }
   myStream = new ArrayList <Bullets>();
     for(int j = 0; j < 8; j++)
-  {
-    myCluster.add(new Asteroid());
-  }
+    {
+      myCluster.add(new Asteroid());
+    }
+  myFleet = new ArrayList <enemyShip>();
+    for(int f = 0; f < 2; f++)
+    {
+      myFleet.add(new enemyShip());
+    }
 }
 
 public void draw() 
@@ -33,6 +39,9 @@ public void draw()
       particle[i].move();
       particle[i].show();//your code here
   }
+  //for(int f = 0; f < myFleet.size(); f++)
+    //if (((myFleet.get(f)).getX() - ) && ((myFleet.get(f)).getY() < 50)) //make it find the x and y of myShip to home in
+
   for(int j = 0; j < myCluster.size(); j++)
   {
     myCluster.get(j).move();
