@@ -32,6 +32,7 @@ public void setup()
 public void draw() 
 {
   //System.out.println(myStream.size());
+  System.out.println(dist(myShip.getX(),myShip.getY(),(myFleet.get(0)).getX(), (myFleet.get(0)).getY()));
   background(30);
   //System.out.println(myCluster.size());
   for(int i = 0; i < particle.length; i++)
@@ -39,9 +40,11 @@ public void draw()
       particle[i].move();
       particle[i].show();//your code here
   }
-  //for(int f = 0; f < myFleet.size(); f++)
-    //if (((myFleet.get(f)).getX() - ) && ((myFleet.get(f)).getY() < 50)) //make it find the x and y of myShip to home in
-
+  for(int f = 0; f < myFleet.size(); f++)
+  {
+    myFleet.get(f).show(); //home in
+//=======================================================================
+  }
   for(int j = 0; j < myCluster.size(); j++)
   {
     myCluster.get(j).move();

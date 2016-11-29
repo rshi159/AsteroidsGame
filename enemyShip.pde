@@ -1,4 +1,4 @@
-class enemyShip extends SpaceShip
+class enemyShip extends Floater
 {
   //the number of corners, a triangular floater has 3   
   protected int myColorStroke;
@@ -7,8 +7,8 @@ class enemyShip extends SpaceShip
   public enemyShip()
     {  
       nBullets = 0;
-      myCenterX = 360;
-      myCenterY = 360;
+      myCenterX = 500;
+      myCenterY = 500;
       myDirectionX = 0;
       myDirectionY = 0;
       myPointDirection = 0;
@@ -43,27 +43,28 @@ class enemyShip extends SpaceShip
       coordY = Math.random()*10000;
       coordX = Math.random()*15000;
     }
-  /*public void show2 ()  //Draws the floater at the current position  
+  public void show()  //Draws the floater at the current position  
   {             
-    fill(myColor2);   
-    stroke(myColor2);    
+    fill(myColor);   
+    stroke(myColor);    
     //convert degrees to radians for sin and cos         
     double dRadians = myPointDirection*(Math.PI/180);                 
     int xRotatedTranslated, yRotatedTranslated;    
     beginShape();         
-    for(int nI = 0; nI < corners2; nI++)    
+    for(int nI = 0; nI < corners; nI++)    
     {     
       //rotate and translate the coordinates of the floater using current direction 
-      xRotatedTranslated = (int)((xCorners2[nI]* Math.cos(dRadians)) - (yCorners2[nI] * Math.sin(dRadians))+myCenterX);     
-      yRotatedTranslated = (int)((xCorners2[nI]* Math.sin(dRadians)) + (yCorners2[nI] * Math.cos(dRadians))+myCenterY);      
+      xRotatedTranslated = (int)((xCorners[nI]* Math.cos(dRadians)) - (yCorners[nI] * Math.sin(dRadians))+myCenterX);     
+      yRotatedTranslated = (int)((xCorners[nI]* Math.sin(dRadians)) + (yCorners[nI] * Math.cos(dRadians))+myCenterY);      
       vertex(xRotatedTranslated,yRotatedTranslated);    
     }   
-    endShape(CLOSE);*/
+    endShape(CLOSE);
+   }
   public void move ()   //move the floater in the current direction of travel
   {      
     //change the x and y coordinates by myDirectionX and myDirectionY       
-    myCenterX = 360; 
-    myCenterY = 360;
+    myCenterX = 500; 
+    myCenterY = 500;
     coordX += myDirectionX;
     coordY += myDirectionY;
     if(coordX >15000)
@@ -83,6 +84,7 @@ class enemyShip extends SpaceShip
       coordY = 20; 
     }      
   }
+
     public void accelerate (double dAmount)   
   {          
     //convert the current direction the floater is pointing to radians    
