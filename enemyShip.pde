@@ -1,8 +1,8 @@
-class enemyShip extends Floater
+class enemyShip extends SpaceShip
 {
   //the number of corners, a triangular floater has 3   
   protected int myColorStroke;
-  protected double coordX, coordY;
+  protected double coordX, coordY, dRadians;
   protected int nBullets;
   public enemyShip()
     {  
@@ -35,14 +35,6 @@ class enemyShip extends Floater
   public int getCoordY() {return (int)coordY;}
   public void setnBullet(int x) {x = (int) nBullets;}
   public int getnBullets() {return (int) nBullets;}
-  public void hyperspace()
-    {
-      myDirectionX = 0;
-      myDirectionY = 0;
-      myPointDirection = Math.random()*360;
-      coordY = Math.random()*10000;
-      coordX = Math.random()*15000;
-    }
   public void show()  //Draws the floater at the current position  
   {             
     fill(myColor);   
@@ -62,11 +54,44 @@ class enemyShip extends Floater
    }
   public void move ()   //move the floater in the current direction of travel
   {      
+  	coordX = myShip.getCoordX() + (myCenterX - myShip.getX());
+  	coordY = myShip.getCoordY() + (myCenterY - myShip.getY());
     //change the x and y coordinates by myDirectionX and myDirectionY       
-    myCenterX = 500; 
-    myCenterY = 500;
-    coordX += myDirectionX;
-    coordY += myDirectionY;
+    if (Math.abs(dist((float)coordX, (float)coordY, (float)myShip.getCoordX(),(float)myShip.getCoordY())) > 75)
+    {
+    	myPointDirection = atan2((float)((coordX - myShip.getCoordX())),(float)(coordY - myShip.getCoordY()));
+    	if (coordX < myShip.getCoordX() && coordY > myShip.getCoordY())
+    	{
+    		dRadians = PI + myPointDirection; 
+    	}
+    	else if (coordX < myShip.getCoordX() || coordY > myShip.getCoordY())
+    	{
+    		dRadians = PI + myPointDirection; 
+    	}
+    	else if (coordX > myShip.getCoordX() || coordY < myShip.getCoordY())
+    	{
+    		dRadians = PI + myPointDirection; 
+    	}
+    	else
+    	{
+    		dRadians = myPointDirection;     
+    	}
+    //change coordinates of direction of travel    
+    	myDirectionX += ((.2) * Math.cos(dRadians));    
+    	myDirectionY += ((.2) * Math.sin(dRadians));
+    	myCenterX += myDirectionX;
+    	myCenterY += myDirectionY;
+	}
+	else if (Math.abs(dist((float)coordX, (float)coordY, (float)myShip.getCoordX(),(float)myShip.getCoordY())) <= 75)
+	{
+    	myPointDirection = atan2((float)((coordX - myShip.getCoordX())),(float)(coordY - myShip.getCoordY()));
+    	dRadians = myPointDirection;     
+    //change coordinates of direction of travel    
+    	myDirectionX += ((-.3) * Math.cos(dRadians));    
+    	myDirectionY += ((-.3) * Math.sin(dRadians));
+    	myCenterX += myDirectionX;
+    	myCenterY += myDirectionY;
+    }
     if(coordX >15000)
     {     
       coordX = 14800;
@@ -83,23 +108,6 @@ class enemyShip extends Floater
     {     
       coordY = 20; 
     }      
-  }
-
-    public void accelerate (double dAmount)   
-  {          
-    //convert the current direction the floater is pointing to radians    
-    double dRadians =myPointDirection*(Math.PI/180);     
-    //change coordinates of direction of travel    
-    myDirectionX += ((dAmount) * Math.cos(dRadians));    
-    myDirectionY += ((dAmount) * Math.sin(dRadians));
-    /*if (myDirectionX > 10)
-      myDirectionX = 10;
-    if (myDirectionX < -10)
-      myDirectionX = -10;
-    if (myDirectionY > 10)
-      myDirectionY = 10;
-    if (myDirectionY < -10)
-      myDirectionY = -10;*/
   }
 }
 

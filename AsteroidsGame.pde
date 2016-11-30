@@ -43,7 +43,7 @@ public void draw()
   for(int f = 0; f < myFleet.size(); f++)
   {
     myFleet.get(f).show(); //home in
-//=======================================================================
+    myFleet.get(f).move();
   }
   for(int j = 0; j < myCluster.size(); j++)
   {
