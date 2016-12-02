@@ -2,24 +2,26 @@ class enemyShip extends SpaceShip
 {
   //the number of corners, a triangular floater has 3   
   protected int myColorStroke;
-  protected double coordX, coordY, dRadians;
+  protected double coordX, coordY, dRadians, dAmount;
   protected int nBullets;
   public enemyShip()
     {  
       nBullets = 0;
-      myCenterX = 500;
-      myCenterY = 500;
+      myCenterX = 360;
+      myCenterY = 360;
       myDirectionX = 0;
       myDirectionY = 0;
       myPointDirection = 0;
-      coordX = 7500;
-      coordY = 5000;
+      coordX = 7500 + myCenterX;
+      coordY = 5000 + myCenterY;
       corners = 3;
       int[] xS = {-5,5,-5};
       int[] yS = {5,0,-5};
       xCorners = xS;
       yCorners = yS;
       myColor  = color(208,64,30);
+      dRadians = 0;
+      dAmount = .00000002;
     } 
   public void setX(int x) {x = (int)myCenterX;}  
   public int getX() {return (int)myCenterX;}   
@@ -53,61 +55,37 @@ class enemyShip extends SpaceShip
     endShape(CLOSE);
    }
   public void move ()   //move the floater in the current direction of travel
-  {      
-  	coordX = myShip.getCoordX() + (myCenterX - myShip.getX());
-  	coordY = myShip.getCoordY() + (myCenterY - myShip.getY());
-    //change the x and y coordinates by myDirectionX and myDirectionY       
-    if (Math.abs(dist((float)coordX, (float)coordY, (float)myShip.getCoordX(),(float)myShip.getCoordY())) > 75)
-    {
-    	myPointDirection = atan2((float)((coordX - myShip.getCoordX())),(float)(coordY - myShip.getCoordY()));
-    	if (coordX < myShip.getCoordX() && coordY > myShip.getCoordY())
-    	{
-    		dRadians = PI + myPointDirection; 
-    	}
-    	else if (coordX < myShip.getCoordX() || coordY > myShip.getCoordY())
-    	{
-    		dRadians = PI + myPointDirection; 
-    	}
-    	else if (coordX > myShip.getCoordX() || coordY < myShip.getCoordY())
-    	{
-    		dRadians = PI + myPointDirection; 
-    	}
-    	else
-    	{
-    		dRadians = myPointDirection;     
-    	}
-    //change coordinates of direction of travel    
-    	myDirectionX += ((.2) * Math.cos(dRadians));    
-    	myDirectionY += ((.2) * Math.sin(dRadians));
-    	myCenterX += myDirectionX;
-    	myCenterY += myDirectionY;
-	}
-	else if (Math.abs(dist((float)coordX, (float)coordY, (float)myShip.getCoordX(),(float)myShip.getCoordY())) <= 75)
-	{
-    	myPointDirection = atan2((float)((coordX - myShip.getCoordX())),(float)(coordY - myShip.getCoordY()));
-    	dRadians = myPointDirection;     
-    //change coordinates of direction of travel    
-    	myDirectionX += ((-.3) * Math.cos(dRadians));    
-    	myDirectionY += ((-.3) * Math.sin(dRadians));
-    	myCenterX += myDirectionX;
-    	myCenterY += myDirectionY;
-    }
-    if(coordX >15000)
-    {     
-      coordX = 14800;
-    }    
-    else if (coordX<0)
-    {     
-      coordX = 20;
-    }    
-    if(coordY >10000)
-    {    
-      coordY = 9980;
-    }   
-    else if (coordY < 0)
-    {     
-      coordY = 20; 
-    }      
+  {
+  	if ((coordY-myShip.getCoordY())/(myShip.getCoordX()-coordX) > 0)
+  	{
+  		if ((coordY-myShip.getCoordY()) >0)
+  		{
+  			myPointDirection = Math.atan2((coordY-myShip.getCoordY()),(myShip.getCoordX()-coordX));
+  		}
+  		else if((coordY-myShip.getCoordY()) < 0)
+  		{
+			myPointDirection = PI + Math.atan2((coordY-myShip.getCoordY()),(myShip.getCoordX()-coordX));
+  		}
+  	}
+  	else if ((coordY-myShip.getCoordY())/(myShip.getCoordX()-coordX) < 0)
+  	{
+  		if ((coordY-myShip.getCoordY()) >0)
+  		{
+  			myPointDirection = PI + Math.atan2((coordY-myShip.getCoordY()),(myShip.getCoordX()-coordX));
+  		}
+  		else if((coordY-myShip.getCoordY()) < 0)
+  		{
+			myPointDirection = Math.atan2((coordY-myShip.getCoordY()),(myShip.getCoordX()-coordX));
+  		}
+  	}    
+  	myPointDirection = Math.atan2((coordY-myShip.getCoordY()),(myShip.getCoordX()-coordX));
+	dRadians = myPointDirection*(Math.PI/180);
+    myDirectionX += ((dAmount) * Math.cos(dRadians));    
+    myDirectionY += ((dAmount) * Math.sin(dRadians)); 
+    coordX += myDirectionX;
+    coordY += myDirectionY;
+    myCenterX = coordX - myShip.getX();
+    myCenterY = coordY - myShip.getY();
   }
 }
 

@@ -32,7 +32,8 @@ public void setup()
 public void draw() 
 {
   //System.out.println(myStream.size());
-  System.out.println(dist(myShip.getX(),myShip.getY(),(myFleet.get(0)).getX(), (myFleet.get(0)).getY()));
+  System.out.println(myFleet.get(0).getCoordX());
+  System.out.println(myFleet.get(0).getCoordY());
   background(30);
   //System.out.println(myCluster.size());
   for(int i = 0; i < particle.length; i++)
