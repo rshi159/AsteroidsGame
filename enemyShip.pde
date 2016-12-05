@@ -15,7 +15,7 @@ class enemyShip extends SpaceShip
       coordX = 7500 + myCenterX;
       coordY = 5000 + myCenterY;
       corners = 3;
-      int[] xS = {-5,5,-5};
+      int[] xS = {-5,10,-5};
       int[] yS = {5,0,-5};
       xCorners = xS;
       yCorners = yS;
@@ -42,7 +42,7 @@ class enemyShip extends SpaceShip
     fill(myColor);   
     stroke(myColor);    
     //convert degrees to radians for sin and cos         
-    double dRadians = myPointDirection*(Math.PI/180);                 
+    double dRadians = myPointDirection*PI;                 
     int xRotatedTranslated, yRotatedTranslated;    
     beginShape();         
     for(int nI = 0; nI < corners; nI++)    
@@ -56,36 +56,22 @@ class enemyShip extends SpaceShip
    }
   public void move ()   //move the floater in the current direction of travel
   {
-  	if ((coordY-myShip.getCoordY())/(myShip.getCoordX()-coordX) > 0)
-  	{
-  		if ((coordY-myShip.getCoordY()) >0)
-  		{
-  			myPointDirection = Math.atan2((coordY-myShip.getCoordY()),(myShip.getCoordX()-coordX));
-  		}
-  		else if((coordY-myShip.getCoordY()) < 0)
-  		{
-			myPointDirection = PI + Math.atan2((coordY-myShip.getCoordY()),(myShip.getCoordX()-coordX));
-  		}
+  	myCenterX = coordX - myShip.getCoordX();
+    myCenterY = coordY - myShip.getCoordY();
+    if (myCenterX-360 > 0 && myCenterY > 0)
+    {
+  		myPointDirection = PI + atan((float)(myCenterY-360)/(float)(myCenterX-360));
   	}
-  	else if ((coordY-myShip.getCoordY())/(myShip.getCoordX()-coordX) < 0)
+  	else if (myCenterX-360 > 0 && myCenterY < 0)
   	{
-  		if ((coordY-myShip.getCoordY()) >0)
-  		{
-  			myPointDirection = PI + Math.atan2((coordY-myShip.getCoordY()),(myShip.getCoordX()-coordX));
-  		}
-  		else if((coordY-myShip.getCoordY()) < 0)
-  		{
-			myPointDirection = Math.atan2((coordY-myShip.getCoordY()),(myShip.getCoordX()-coordX));
-  		}
-  	}    
-  	myPointDirection = Math.atan2((coordY-myShip.getCoordY()),(myShip.getCoordX()-coordX));
-	dRadians = myPointDirection*(Math.PI/180);
+  		myPointDirection = atan((float)(myCenterY-360)/(float)(myCenterX-360));
+  	}
     myDirectionX += ((dAmount) * Math.cos(dRadians));    
     myDirectionY += ((dAmount) * Math.sin(dRadians)); 
     coordX += myDirectionX;
     coordY += myDirectionY;
-    myCenterX = coordX - myShip.getX();
-    myCenterY = coordY - myShip.getY();
+    myCenterX = coordX - myShip.getCoordX();
+    myCenterY = coordY - myShip.getCoordY();
   }
 }
 

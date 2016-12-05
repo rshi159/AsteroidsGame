@@ -22,18 +22,19 @@ public void setup()
     {
       myCluster.add(new Asteroid());
     }
-  myFleet = new ArrayList <enemyShip>();
+  /*myFleet = new ArrayList <enemyShip>();
     for(int f = 0; f < 2; f++)
     {
       myFleet.add(new enemyShip());
-    }
+    }*/
 }
 
 public void draw() 
 {
   //System.out.println(myStream.size());
-  System.out.println(myFleet.get(0).getCoordX());
-  System.out.println(myFleet.get(0).getCoordY());
+  /*System.out.println(myFleet.get(0).getX());
+  System.out.println(myFleet.get(0).getY());
+  //System.out.println(myFleet.get(0).getPointDirection());*/
   background(30);
   //System.out.println(myCluster.size());
   for(int i = 0; i < particle.length; i++)
@@ -41,11 +42,11 @@ public void draw()
       particle[i].move();
       particle[i].show();//your code here
   }
-  for(int f = 0; f < myFleet.size(); f++)
+  /*for(int f = 0; f < myFleet.size(); f++)
   {
     myFleet.get(f).show(); //home in
     myFleet.get(f).move();
-  }
+  }*/
   for(int j = 0; j < myCluster.size(); j++)
   {
     myCluster.get(j).move();
