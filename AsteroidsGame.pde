@@ -59,6 +59,13 @@ public void draw()
           (myCluster.get(j)).setisSolid(0);
         }
     }
+    if(myCluster.get(j).getIsSolid() == false)
+    {
+      myCluster.get(j).show2();
+      myCluster.get(j).show3();
+      myCluster.get(j).move2();
+      myCluster.get(j).move3();
+    }
   }
   if (myCluster.size() < 8)
     myCluster.add(new Asteroid());
