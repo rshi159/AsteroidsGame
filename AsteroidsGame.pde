@@ -35,7 +35,19 @@ public void draw()
   /*System.out.println(myFleet.get(0).getX());
   System.out.println(myFleet.get(0).getY());
   //System.out.println(myFleet.get(0).getPointDirection());*/
+  System.out.println(myShip.getHealth());
   background(30);
+  if(myShip.getHealth()<=0)
+  {
+    textSize(30);
+    text("Final Score: "+ myShip.getScore(),50,360);
+    //Set DirectionX&Y's to 0;
+  }
+  textSize(14);
+  text("Health: "+ myShip.getHealth(),180,30);
+  text("Score: "+myShip.getScore(), 600,30);
+  fill(255,0,0);
+  rect(180,35,myShip.getHealth()*1.5,10);
   //System.out.println(myCluster.size());
   for(int i = 0; i < particle.length; i++)
   {
@@ -57,13 +69,17 @@ public void draw()
       if(dist((float)((myStream.get(e)).getX()), (float)((myStream.get(e)).getY()),(float) ((myCluster.get(j)).getX()),(float) ((myCluster.get(j)).getY())) <=40) 
         {
           (myCluster.get(j)).setisSolid(0);
+          myShip.setScore(5);
         }
     }
-    if(myCluster.get(j).getIsSolid() == false)
+    if(myCluster.get(j).getIsSolid() == false && myCluster.get(j).getOff2() == false)
     {
       myCluster.get(j).show2();
-      myCluster.get(j).show3();
       myCluster.get(j).move2();
+    }
+    if(myCluster.get(j).getIsSolid() == false && myCluster.get(j).getOff3() == false)
+    {
+      myCluster.get(j).show3();
       myCluster.get(j).move3();
     }
   }
@@ -79,12 +95,14 @@ public void draw()
     }
     else if((myStream.get(k).getY() > 1080 || (myStream.get(k).getY() < -180)))
       myStream.remove(k);
-  }
+    }
   myShip.show();//your code here
   myShip.show2();
   myShip.move();
   //System.out.println(myShip.getCoordX());
   //System.out.println(myShip.getCoordY());
+  textSize(12);
+  fill(230);
   text("x-coordinate = " + myShip.getCoordX(),30,30);
   text("y-coordinate = " + myShip.getCoordY(),30,50); 
   if(wIsPressed == true && aIsPressed == true && dIsPressed == true)
@@ -97,7 +115,7 @@ public void draw()
   else if(wIsPressed == true && dIsPressed == true)
   {
     myShip.accelerate(.05);
-    myShip.rotate(8);
+    myShip.rotate(10);
     myShip.show3();
     myShip.show4();
   }
@@ -110,7 +128,7 @@ public void draw()
   else if(wIsPressed == true && aIsPressed == true)
   {
     myShip.accelerate(.05);
-    myShip.rotate(-8);
+    myShip.rotate(-10);
     myShip.show3();
     myShip.show5();
   }
@@ -138,13 +156,13 @@ public void draw()
   else if(aIsPressed == true)
   {
     myShip.accelerate(.02);
-    myShip.rotate(-8);
+    myShip.rotate(-12);
     myShip.show5();
   }
   else if(dIsPressed == true)
   {
     myShip.accelerate(.02);
-    myShip.rotate(8);
+    myShip.rotate(12);
     myShip.show4();
   }
 }

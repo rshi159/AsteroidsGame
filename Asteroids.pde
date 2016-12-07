@@ -7,7 +7,7 @@ class Asteroid extends Floater
   public Asteroid()
   {
     off2 = false;
-    off2 = false;
+    off3 = false;
     isSolid = true;
     isBroken = false;
     mySpin = (int)(Math.random()*3+2);
@@ -18,8 +18,8 @@ class Asteroid extends Floater
     xCorners = xS;
     yCorners = yS;
     myColor=180;
-    myCenterX = 360;
-    myCenterY = 360;
+    myCenterX = 900;
+    myCenterY = 960;
     myDirectionX = Math.random()*6-3;
     myDirectionY = Math.random()*6-3;
     corners2 = 4;
@@ -28,8 +28,8 @@ class Asteroid extends Floater
     xCorners2 = xS2;
     yCorners2 = yS2;
     myColor2=180;
-    myCenterX2 = 360;
-    myCenterY2 = 360;
+    myCenterX2 = 900;
+    myCenterY2 = 960;
     myDirectionX2 = Math.random()*6-3;
     myDirectionY2 = Math.random()*6-3;
     myRotateDirection2 = 0;
@@ -40,8 +40,8 @@ class Asteroid extends Floater
     xCorners3 = xS2;
     yCorners3 = yS2;
     myColor3=180;
-    myCenterX3 = 360;
-    myCenterY3 = 360;
+    myCenterX3 = 960;
+    myCenterY3 = 960;
     myDirectionX3 = Math.random()*6-3;
     myDirectionY3 = Math.random()*6-3;
     myRotateDirection3 = 0;
@@ -54,6 +54,10 @@ class Asteroid extends Floater
   public int getX() {return (int)myCenterX;}   
   public void setY(int y) {y = (int)myCenterY;}
   public int getY() {return (int)myCenterY;}
+  public int getX2() {return (int)myCenterX2;}  
+  public int getY2() {return (int)myCenterY2;} 
+  public int getX3() {return (int)myCenterX3;}  
+  public int getY3() {return (int)myCenterY3;} 
   public void setDirectionX(double x) {x = myDirectionX;}   
   public double getDirectionX() {return myDirectionX;}
   public void setDirectionY(double y) {y = myDirectionY;}
@@ -62,6 +66,8 @@ class Asteroid extends Floater
   public double getPointDirection() {return myPointDirection;} //your code here
   public boolean getIsSolid() {return isSolid;}
   public boolean getIsBroken() {return isBroken;}
+  public boolean getOff2() {return off2;}
+  public boolean getOff3() {return off3;}
   public void show2()  //Draws the floater at the current position  
   {             
     fill(myColor2);   
@@ -106,7 +112,7 @@ class Asteroid extends Floater
   public boolean getisSolid() {return isSolid;}
   public void move()
   {
-    if(off2 == true && off3 ==true)
+    if((off2 == true && off3 ==true) && isSolid == false)
     {
       off2 = false;
       off3 = false;
@@ -128,6 +134,8 @@ class Asteroid extends Floater
     {
       myColor = color(30,30,30,0);
       isSolid = false;
+      myShip.setHealth(2);
+      myShip.setScore(-2);
     }  
     //wrap around screen    
     if(isBroken == false)

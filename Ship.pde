@@ -1,6 +1,6 @@
 class SpaceShip extends Floater  
 { 
-  protected int corners2, corners3, corners4, corners5;  //the number of corners, a triangular floater has 3   
+  protected int corners2, corners3, corners4, corners5, health, score;  //the number of corners, a triangular floater has 3   
   protected int myColor2, myColor3, myColor4, myColor5, myColorStroke;
   protected double coordX, coordY;
   protected int[] xCorners2, xCorners3, xCorners4, xCorners5;   
@@ -8,6 +8,7 @@ class SpaceShip extends Floater
   protected int nBullets;
   public SpaceShip()
     {  
+      health = 100;
       nBullets = 0;
       myCenterX = 360;
       myCenterY = 360;
@@ -62,6 +63,10 @@ class SpaceShip extends Floater
   public int getCoordY() {return (int)coordY;}
   public void setnBullet(int x) {x = (int) nBullets;}
   public int getnBullets() {return (int) nBullets;}
+  public int getHealth() {return health;}
+  public void setHealth(int x) {health -= x;}
+  public int getScore() {return score;}
+  public void setScore(int x) {score += x;}
   public void hyperspace()
     {
       myDirectionX = 0;

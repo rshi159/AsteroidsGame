@@ -16,8 +16,8 @@ class Bullets extends Floater
     myCenterY = 360;
     myPointDirection = myShip.getPointDirection();
     double dRadians =myPointDirection*(Math.PI/180);
-    myDirectionX += 5*Math.cos(dRadians);
-    myDirectionY += 5*Math.sin(dRadians);
+    myDirectionX += 15*Math.cos(dRadians);
+    myDirectionY += 15*Math.sin(dRadians);
   }
   public void show()
   {
