@@ -3,6 +3,7 @@ NormalParticle[] particle;
 ArrayList <Asteroid> myCluster;
 ArrayList <Bullets> myStream;
 ArrayList <enemyShip> myFleet;
+int myNum = 0;
 private boolean wIsPressed = false;
 private boolean dIsPressed = false;
 private boolean aIsPressed = false;
@@ -35,7 +36,11 @@ public void draw()
   /*System.out.println(myFleet.get(0).getX());
   System.out.println(myFleet.get(0).getY());
   //System.out.println(myFleet.get(0).getPointDirection());*/
-  System.out.println(myShip.getHealth());
+  if(myShip.getHealth()>0)
+  {
+    myNum = myShip.getScore();
+  }
+  System.out.println(myNum);
   background(30);
   if(myShip.getHealth()<=0)
   {
