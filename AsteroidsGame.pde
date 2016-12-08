@@ -40,12 +40,12 @@ public void draw()
   {
     myNum = myShip.getScore();
   }
-  System.out.println(myNum);
   background(30);
   if(myShip.getHealth()<=0)
   {
     textSize(30);
-    text("Final Score: "+ myShip.getScore(),50,360);
+    text("Final Score: "+ myNum,50,360);
+    myShip.setHealth(0);
     //Set DirectionX&Y's to 0;
   }
   textSize(14);
@@ -73,8 +73,11 @@ public void draw()
     {
       if(dist((float)((myStream.get(e)).getX()), (float)((myStream.get(e)).getY()),(float) ((myCluster.get(j)).getX()),(float) ((myCluster.get(j)).getY())) <=40) 
         {
+          if(myCluster.get(j).getisSolid() == true)
+          {
+          myShip.setScore(50);
+          }
           (myCluster.get(j)).setisSolid(0);
-          myShip.setScore(5);
         }
     }
     if(myCluster.get(j).getIsSolid() == false && myCluster.get(j).getOff2() == false)

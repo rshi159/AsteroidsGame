@@ -130,13 +130,13 @@ class Asteroid extends Floater
       isBroken = true; 
     else if(isSolid == true)
       isBroken = false;
-    if(dist((float)myCenterX, (float)myCenterY,(float) myShip.getX(),(float) myShip.getY()) <=40)   
+    if(isSolid == true && dist((float)myCenterX, (float)myCenterY,(float) myShip.getX(),(float) myShip.getY()) <=40)
     {
-      myColor = color(30,30,30,0);
+      myShip.setHealth(20);
+      myShip.setScore(-150);
       isSolid = false;
-      myShip.setHealth(2);
-      myShip.setScore(-2);
-    }  
+      myColor = color(255,0,0,0);
+    }
     //wrap around screen    
     if(isBroken == false)
     {
